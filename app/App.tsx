@@ -1,65 +1,110 @@
-import React from "react";
 import { StyleSheet, Text, View, StatusBar, Image, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
-
+import React, { useState, useEffect } from "react";
+ 
 export default function App() {
     const [fontsLoaded] = useFonts({
-        "Pacifico-Regular": require("../assets/fonts/Playwrite/static/PlaywriteVN-Light.ttf"), // Adjust the path if needed
+        "Pacifico-Regular": require("../assets/fonts/Playwrite/static/PlaywriteVN-Light.ttf"),
     });
-
+    const images = [
+        require('../assets/meme/1.jpg'),
+        require('../assets/meme/2.jpg'),
+        require('../assets/meme/3.jpg'),
+        require('../assets/meme/4.jpg'),
+        require('../assets/meme/5.jpg'),
+        require('../assets/meme/6.jpg'),
+        require('../assets/meme/7.jpg'),
+        require('../assets/meme/8.jpg'),
+    ];
+    //var randomImage = images[Math.floor(Math.random() * 8)];
+   
+   
+    const [randomImage, setRandomImage] = useState(images[Math.floor(Math.random() * images.length)]);
+ 
+    // Use useEffect to set up the interval
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setRandomImage(images[Math.floor(Math.random() * images.length)]);
+        }, 5000);
+ 
+        // Clean up the interval when the component unmounts
+        return () => clearInterval(interval);
+    }, [images]);
+ 
     return (
         <View style={styles.container}>
             <StatusBar style={"auto"} />
             <Text style={styles.title}>Instagram</Text>
             <Image source={require('../assets/heart.png')} style={styles.heart} />
             <Image source={require('../assets/send.png')} style={styles.send} />
-
-            <ScrollView 
-                horizontal={true} // Enables horizontal scrolling
-                showsHorizontalScrollIndicator={false} // Hides the scroll bar (optional)
-                contentContainerStyle={styles.scrollContainer} // Styles the inner content
+ 
+            <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.scrollContainer}
             >
                 <View style={styles.circularContainer}>
                     <Image
-                        source={{ uri: 'https://via.placeholder.com/150' }} // Replace with your image URL
+                        source={{ uri: 'https://via.placeholder.com/150' }}
                         style={styles.previewPic}
                     />
                     <View style={styles.plusContainer}>
                         <Text style={styles.plusIcon}>+</Text>
                     </View>
+                    <Text style={styles.storyInfo}>Your story</Text>
                 </View>
-
-
-
+ 
                 <View style={styles.circularContainer}>
                     <Image
-                        source={{ uri: 'https://via.placeholder.com/150' }} // Replace with your image URL
+                        source={{ uri: 'https://via.placeholder.com/150' }}
                         style={styles.previewPic}
                     />
+                    <Text style={styles.storyInfo}>Person 1</Text>
                 </View>
-
+ 
                 <View style={styles.circularContainer}>
                     <Image
-                        source={{ uri: 'https://via.placeholder.com/150' }} // Replace with your image URL
+                        source={{ uri: 'https://via.placeholder.com/150' }}
                         style={styles.previewPic}
                     />
+                    <Text style={styles.storyInfo}>Person 2</Text>
                 </View>
-
+ 
                 <View style={styles.circularContainer}>
                     <Image
-                        source={{ uri: 'https://via.placeholder.com/150' }} // Replace with your image URL
+                        source={{ uri: 'https://via.placeholder.com/150' }}
                         style={styles.previewPic}
                     />
+                    <Text style={styles.storyInfo}>Person 3</Text>
                 </View>
             </ScrollView>
+ 
+            <View style={styles.instaContainer}>
+                <Image source={randomImage} style={styles.instaPic} />
+            </View>
         </View>
     );
 }
-
+ 
 const styles = StyleSheet.create({
+    instaContainer: {
+        height: 500,
+        width: "100%",
+    },
+    instaPic: {
+        flex: 1,
+        resizeMode: 'contain',
+        width: '100%',
+    },
+    storyInfo: {
+        color: '#fff',
+        fontSize: 12,
+        left: 15,
+        top: 10,
+    },
     container: {
         flex: 1,
-        backgroundColor: "#000", // Black background for Instagram-like look
+        backgroundColor: "#000",
         alignItems: "center",
         height: "100%",
     },
@@ -67,12 +112,12 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 20,
         top: 20,
-        height:50,
+        height: 50,
         width: "100%",
         textAlign: "left",
         fontSize: 25,
         fontFamily: "Pacifico-Regular",
-        color: "#fff", // White text
+        color: "#fff",
     },
     heart: {
         position: "absolute",
@@ -93,39 +138,39 @@ const styles = StyleSheet.create({
         width: "auto",
         left: 0,
         top: 0,
-        flexDirection: "row", // Ensures content is laid out horizontally
+        flexDirection: "row",
         paddingHorizontal: 10,
-        paddingTop: 100, // Pushes the content down (adjust as needed)
+        paddingTop: 100,
     },
     circularContainer: {
-        width: 85, // Size of the circle
-        height: 85, // Size of the circle
-        borderRadius: 42.5, // Half of width/height for a perfect circle
-        overflow: "visible", // Ensures the image doesn't go outside the circle
-        borderWidth: 3, // Optional: adds a border
-        borderColor: "#ff0099", // Optional: border color (like Instagram)
-        marginHorizontal: 10, // Adds spacing between items
+        width: 85,
+        height: 85,
+        borderRadius: 42.5,
+        overflow: "visible",
+        borderWidth: 3,
+        borderColor: "#ff0099",
+        marginHorizontal: 10,
     },
     plusContainer: {
         position: "absolute",
         left: 45,
         top: 45,
-        width: 40, // Size of the circle
-        height: 40, // Size of the circle
-        borderRadius: 42.5, // Half of width/height for a perfect circle
-        backgroundColor: "#FFF", // White background
+        width: 40,
+        height: 40,
+        borderRadius: 42.5,
+        backgroundColor: "#FFF",
         justifyContent: "center",
         alignItems: "center",
-        marginHorizontal: 10, // Adds spacing between items
+        marginHorizontal: 10,
     },
     plusIcon: {
-        fontSize: 30, // Adjust size as needed
-        color: "#000", // Black color for contrast
+        fontSize: 30,
+        color: "#000",
         fontWeight: "bold",
     },
     previewPic: {
         width: "100%",
         height: "100%",
-        resizeMode: "cover", // Ensures the image covers the circle proportionally
+        resizeMode: "cover",
     },
 });
