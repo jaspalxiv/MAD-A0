@@ -1,7 +1,7 @@
-import React from "react";
 import { StyleSheet, Text, View, StatusBar, Image, ScrollView } from "react-native";
 import { useFonts } from "expo-font";
-
+import React, { useState, useEffect } from "react";
+ 
 export default function App() {
     const [fontsLoaded] = useFonts({
         "Pacifico-Regular": require("../assets/fonts/Playwrite/static/PlaywriteVN-Light.ttf"),
@@ -16,15 +16,28 @@ export default function App() {
         require('../assets/meme/7.jpg'),
         require('../assets/meme/8.jpg'),
     ];
-    const randomImage = images[Math.floor(Math.random() * 8)];
-
+    //var randomImage = images[Math.floor(Math.random() * 8)];
+   
+   
+    const [randomImage, setRandomImage] = useState(images[Math.floor(Math.random() * images.length)]);
+ 
+    // Use useEffect to set up the interval
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setRandomImage(images[Math.floor(Math.random() * images.length)]);
+        }, 5000);
+ 
+        // Clean up the interval when the component unmounts
+        return () => clearInterval(interval);
+    }, [images]);
+ 
     return (
         <View style={styles.container}>
             <StatusBar style={"auto"} />
             <Text style={styles.title}>Instagram</Text>
             <Image source={require('../assets/heart.png')} style={styles.heart} />
             <Image source={require('../assets/send.png')} style={styles.send} />
-
+ 
             <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
@@ -40,7 +53,7 @@ export default function App() {
                     </View>
                     <Text style={styles.storyInfo}>Your story</Text>
                 </View>
-
+ 
                 <View style={styles.circularContainer}>
                     <Image
                         source={{ uri: 'https://via.placeholder.com/150' }}
@@ -48,7 +61,7 @@ export default function App() {
                     />
                     <Text style={styles.storyInfo}>Person 1</Text>
                 </View>
-
+ 
                 <View style={styles.circularContainer}>
                     <Image
                         source={{ uri: 'https://via.placeholder.com/150' }}
@@ -56,7 +69,7 @@ export default function App() {
                     />
                     <Text style={styles.storyInfo}>Person 2</Text>
                 </View>
-
+ 
                 <View style={styles.circularContainer}>
                     <Image
                         source={{ uri: 'https://via.placeholder.com/150' }}
@@ -65,14 +78,14 @@ export default function App() {
                     <Text style={styles.storyInfo}>Person 3</Text>
                 </View>
             </ScrollView>
-
+ 
             <View style={styles.instaContainer}>
                 <Image source={randomImage} style={styles.instaPic} />
             </View>
         </View>
     );
 }
-
+ 
 const styles = StyleSheet.create({
     instaContainer: {
         height: 500,
