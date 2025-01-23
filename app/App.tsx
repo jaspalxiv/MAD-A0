@@ -39,7 +39,7 @@ export default function App() {
     };
     return (
         <View style={styles.container}>
-            <StatusBar style={"auto"} />
+            <StatusBar />
             <Text style={styles.title}>Instagram</Text>
             <Image source={require('../assets/heart.png')} style={styles.heart} />
             <Image source={require('../assets/send.png')} style={styles.send} />
@@ -117,7 +117,7 @@ export default function App() {
                     style={styles.footerOptions}
                 />
 
-                <View style={styles.footerOptions, styles.footerprofile}>
+                <View style={[styles.footerOptions, styles.footerprofile]}>
                     <Image
                         source={require("../assets/stories/2.png")}
                         style={styles.previewPic}
